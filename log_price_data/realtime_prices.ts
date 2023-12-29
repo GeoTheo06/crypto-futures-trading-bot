@@ -1,0 +1,1 @@
+//will update price from the last  date in the log.
