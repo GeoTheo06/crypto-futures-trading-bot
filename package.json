@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc test.ts",
     "start": "node test.js",
-	"dev": "ts-node test.ts"
+    "dev": "ts-node organize_prices.ts"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   "dependencies": {
     "@types/connect": "^3.4.38",
     "@types/node": "^20.10.5",
+    "csv-parse": "^5.5.3",
+    "csv-stringify": "^6.4.5",
     "dotenv": "^16.3.1",
     "node-binance-api": "^0.13.1",
     "technicalindicators": "^3.1.0"
