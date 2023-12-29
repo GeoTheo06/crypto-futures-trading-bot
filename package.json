@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js",
-	"dev": "nodemon index.js"
+    "build": "tsc test.ts",
+    "start": "node test.js",
+	"dev": "ts-node test.ts"
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,15 @@
   },
   "homepage": "https://github.com/GeoTheo06/crypto-futures-trading-bot#readme",
   "dependencies": {
+    "@types/connect": "^3.4.38",
+    "@types/node": "^20.10.5",
     "dotenv": "^16.3.1",
     "node-binance-api": "^0.13.1",
     "technicalindicators": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
