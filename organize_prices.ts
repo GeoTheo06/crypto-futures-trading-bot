@@ -4,7 +4,7 @@ import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
 const directoryPath = "price_data";
-
+var firstMonth = true;
 //getting how many years of data we have (currently 2023 only)
 fs.readdirSync(directoryPath).forEach((file) => {
 	// Read the CSV file
@@ -34,6 +34,17 @@ fs.readdirSync(directoryPath).forEach((file) => {
 		header: true,
 	});
 
+	if (!firstMonth) {
+		const lines = output.split("\n");
+
+		// Remove the first (header) line
+		lines.shift();
+
+		// Join the remaining lines back into a single string
+		output = lines.join("\n");
+	}
+
 	fs.appendFileSync("BTCUSDT-5m-ALL-DATA.csv", output);
+	firstMonth = false;
 });
 console.log("File conversion complete.");
