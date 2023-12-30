@@ -3,48 +3,54 @@ import moment from "moment";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
 
-const directoryPath = "price_data";
+const directoryPath = "log_price_data/price_data";
 var firstMonth = true;
-//getting how many years of data we have (currently 2023 only)
+// Loop through each file in the directory
 fs.readdirSync(directoryPath).forEach((file) => {
-	// Read the CSV file
 	const input = fs.readFileSync(`${directoryPath}/${file}`, "utf8");
 
-	// Define a type for the record structure in the CSV file
 	interface Record {
-		open_time: string;
-		close_time: string;
-		[key: string]: string;
+		open_time?: string;
+		close_time?: string;
+		volume?: string;
+		quote_volume?: string;
+		count?: string;
+		taker_buy_volume?: string;
+		taker_buy_quote_volume?: string;
+		ignore?: string;
+		[key: string]: string | undefined;
 	}
 
-	// Parse the CSV file
 	let records: Record[] = parse(input, {
 		columns: true,
 		skip_empty_lines: true,
 	});
 
-	// Convert epoch to readable format (they are in milliseconds)
-	records.forEach((record) => {
-		record.open_time_readable = moment(parseInt(record.open_time)).format("MM/DD/YYYY, hh:mm:ss A");
-		record.close_time_readable = moment(parseInt(record.close_time)).format("MM/DD/YYYY, hh:mm:ss A");
-	});
+	records = records.map((record) => {
+		if (record.open_time && record.close_time) {
+			// Convert epoch to readable format if open_time and close_time are defined
+			record.open_time_readable = moment(parseInt(record.open_time)).format("MM/DD/YYYY-hh:mm:ss A");
+			record.close_time_readable = moment(parseInt(record.close_time)).format("MM/DD/YYYY-hh:mm:ss A");
+		}
 
-	// Convert back to CSV
+		// Remove the unecessary fields
+		delete record.open_time;
+		delete record.close_time;
+		delete record.volume;
+		delete record.quote_volume;
+		delete record.count;
+		delete record.taker_buy_volume;
+		delete record.taker_buy_quote_volume;
+		delete record.ignore;
+		return record;
+	});
+	//because of the "header: firstMonth" only the header of the first file will be printed in the (beginning of the) final file
 	let output = stringify(records, {
-		header: true,
+		header: firstMonth,
 	});
-
-	if (!firstMonth) {
-		const lines = output.split("\n");
-
-		// Remove the first (header) line
-		lines.shift();
-
-		// Join the remaining lines back into a single string
-		output = lines.join("\n");
-	}
-
-	fs.appendFileSync("BTCUSDT-5m-ALL-DATA.csv", output);
 	firstMonth = false;
+
+	fs.appendFileSync("log_price_data/price_data/BTCUSDT-5m-ALL-DATA.csv", output);
 });
+
 console.log("File conversion complete.");

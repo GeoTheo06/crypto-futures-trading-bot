@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc test.ts",
     "start": "node test.js",
-    "dev": "ts-node organize_prices.ts"
+    "dev": "ts-node log_price_data/historical_prices.ts"
   },
   "repository": {
     "type": "git",
