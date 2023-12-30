@@ -1,36 +1,36 @@
 {
-  "name": "crypto-futures-trading-bot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc test.ts",
-    "start": "node test.js",
-    "dev": "ts-node log_price_data/historical_prices.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GeoTheo06/crypto-futures-trading-bot.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GeoTheo06/crypto-futures-trading-bot/issues"
-  },
-  "homepage": "https://github.com/GeoTheo06/crypto-futures-trading-bot#readme",
-  "dependencies": {
-    "@types/connect": "^3.4.38",
-    "@types/node": "^20.10.5",
-    "csv-parse": "^5.5.3",
-    "csv-stringify": "^6.4.5",
-    "dotenv": "^16.3.1",
-    "node-binance-api": "^0.13.1",
-    "technicalindicators": "^3.1.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
-  }
+	"name": "crypto-futures-trading-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc main.ts",
+		"start": "node main.js",
+		"dev": "ts-node main.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/GeoTheo06/crypto-futures-trading-bot.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/GeoTheo06/crypto-futures-trading-bot/issues"
+	},
+	"homepage": "https://github.com/GeoTheo06/crypto-futures-trading-bot#readme",
+	"dependencies": {
+		"@types/connect": "^3.4.38",
+		"@types/node": "^20.10.5",
+		"csv-parse": "^5.5.3",
+		"csv-stringify": "^6.4.5",
+		"dotenv": "^16.3.1",
+		"node-binance-api": "^0.13.1",
+		"technicalindicators": "^3.1.0"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	}
 }
