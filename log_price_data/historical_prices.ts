@@ -5,7 +5,7 @@ import { stringify } from "csv-stringify/sync";
 
 const directoryPath = "log_price_data/price_data";
 var firstMonth = true;
-
+fs.unlinkSync("log_price_data/price_data/BTCUSDT-5m-ALL-DATA.csv"); //DELETE AFTER TESTING
 export function saveHistoricalPrices() {
 
 	// Loop through each file in the directory
