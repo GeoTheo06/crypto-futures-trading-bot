@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc main.ts",
 		"start": "node main.js",
-		"dev": "ts-node main.ts"
+		"dev": "ts-node test.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -22,6 +22,7 @@
 	"dependencies": {
 		"@types/connect": "^3.4.38",
 		"@types/node": "^20.10.5",
+		"axios": "^1.6.3",
 		"csv-parse": "^5.5.3",
 		"csv-stringify": "^6.4.5",
 		"dotenv": "^16.3.1",
