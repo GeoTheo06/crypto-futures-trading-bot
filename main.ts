@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import { saveHistoricalPrices } from "./save_price_data/historical_prices";
-import { saveRealtimePrices } from "./save_price_data/realtime_prices/realtime_prices";
+import { saveRealtimePrices } from "./save_price_data/realtime_prices";
 import { calcEma } from "./indicators/calculate_indicators";
 const Binance = require("node-binance-api");
 
