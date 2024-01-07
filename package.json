@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc main.ts",
 		"start": "node main.js",
-		"dev": "ts-node test.ts"
+		"dev": "ts-node save_price_data/save_price_data.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -21,11 +21,13 @@
 	"homepage": "https://github.com/GeoTheo06/crypto-futures-trading-bot#readme",
 	"dependencies": {
 		"@types/connect": "^3.4.38",
+		"@types/mongoose": "^5.11.97",
 		"@types/node": "^20.10.5",
 		"axios": "^1.6.3",
 		"csv-parse": "^5.5.3",
 		"csv-stringify": "^6.4.5",
 		"dotenv": "^16.3.1",
+		"mongoose": "^8.0.3",
 		"node-binance-api": "^0.13.1",
 		"technicalindicators": "^3.1.0"
 	},
