@@ -13,10 +13,20 @@ export async function fetchHistoricalData(startTime: number, endTime: number): P
 			},
 		});
 
-		console.log("success fetching data: ", response.data);
-		console.log(response.data);
+		console.log("success fetching data: ", response.data[0]);
+		const priceData = response.data.map(
+			(object: any[]): PriceDataFields => ({
+				timestamp: object[0],
+				readableTime: new Date(object[0]).toLocaleString(),
+				open: object[1],
+				close: object[4],
+				high: object[2],
+				low: object[3],
+			})
+		);
 
-		return response.data;
+		console.log(priceData[0]);
+		return priceData;
 	} catch (error) {
 		console.error("Error fetching market data:", error);
 		return [];
