@@ -1,9 +1,9 @@
-import { fetchHistoricalData } from "./fetch_historical_prices";
+import { fetchPrices } from "./fetch_prices";
 import { Schema, model } from "mongoose";
-import { PriceDataFields } from "./price_data_interface";
+import { PriceDataI } from "./price_data_interface";
 import mongoose from "mongoose";
 
-export const priceDataSchema = new Schema<PriceDataFields>({
+export const priceDataSchema = new Schema<PriceDataI>({
 	timestamp: { type: Number, required: true },
 	readableTime: { type: String, required: true },
 	open: { type: Number, required: true },
@@ -24,7 +24,7 @@ export async function connectToDb() {
 	}
 }
 
-export const PriceData = model<PriceDataFields>("PriceData", priceDataSchema);
+export const PriceData = model<PriceDataI>("PriceData", priceDataSchema);
 
 async function mostRecentPriceData(): Promise<number> {
 	try {
@@ -45,20 +45,23 @@ async function mostRecentPriceData(): Promise<number> {
 
 async function save_price_data() {
 	await connectToDb();
-	const currentTime = Date.now();
-	const endTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5; // Calculate the last 5-minute mark. -6000*5 subtracts another five minutes to make sure that the last candle i fetch has closed (if it is still open then it means that i will get a price that might change until the candle closes)
-	let startTime = (await mostRecentPriceData()) + 60000 * 5;
+
+	let currentTime = Date.now();
+	let endTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5; // Calculate the last 5-minute mark. -6000*5 subtracts another five minutes to make sure that the last candle i fetch has closed (if it is still open then it means that i will get a price that might change until the candle closes)
+	let startTime = (await mostRecentPriceData()) + 60000 * 5; //+ 60000*5 so that i dont fetch the same data as the ones already in the database
 
 	while (startTime <= endTime) {
-		const fetchPrices = await fetchHistoricalData(startTime, endTime);
-		for (let i = 0; i < fetchPrices.length; i++) {
-			const priceData = new PriceData(fetchPrices[i]);
-			console.log(priceData)
+		const fetchedPrices = await fetchPrices(startTime, endTime);
+		for (let i = 0; i < fetchedPrices.length; i++) {
+			const priceData = new PriceData(fetchedPrices[i]);
+			console.log(priceData);
 			await priceData.save();
 		}
 		startTime = (await mostRecentPriceData()) + 60000 * 5;
+		currentTime = Date.now();
+		endTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5;
+		//recalculating endTime because if the data are way too many, this process could take more than  5 minutes.
 	}
-
 	mongoose.connection.close();
 }
 save_price_data();
