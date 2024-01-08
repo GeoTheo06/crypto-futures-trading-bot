@@ -1,4 +1,4 @@
-export interface PriceDataFields {
+export interface PriceDataI {
 	timestamp: number;
 	readableTime: string;
 	open: number;
