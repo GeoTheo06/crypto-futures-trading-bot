@@ -1,7 +1,7 @@
 import axios from "axios";
-import { PriceDataFields } from "./price_data_interface";
+import { PriceDataI } from "./price_data_interface";
 
-export async function fetchHistoricalData(startTime: number, endTime: number): Promise<PriceDataFields[]> {
+export async function fetchPrices(startTime: number, endTime: number): Promise<PriceDataI[]> {
 	try {
 		const response = await axios.get("https://fapi.binance.com/fapi/v1/markPriceKlines", {
 			params: {
@@ -15,7 +15,7 @@ export async function fetchHistoricalData(startTime: number, endTime: number): P
 
 		console.log("success fetching data: ", response.data[0]);
 		const priceData = response.data.map(
-			(object: any[]): PriceDataFields => ({
+			(object: any[]): PriceDataI => ({
 				timestamp: object[0],
 				readableTime: new Date(object[0]).toLocaleString(),
 				open: object[1],

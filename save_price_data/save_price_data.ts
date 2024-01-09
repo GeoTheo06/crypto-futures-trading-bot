@@ -43,6 +43,13 @@ async function mostRecentPriceData(): Promise<number> {
 	}
 }
 
+async function saveRealtimePrices() {
+	let currentTime = Date.now();
+	let startTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5;
+	let endTime = currentTime - (currentTime % (60000 * 5));
+	const priceData = new PriceData(await fetchPrices(startTime, endTime));
+	console.log(priceData);
+}
 async function save_price_data() {
 	await connectToDb();
 
@@ -62,6 +69,7 @@ async function save_price_data() {
 		endTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5;
 		//recalculating endTime because if the data are way too many, this process could take more than  5 minutes.
 	}
-	mongoose.connection.close();
+
+	setInterval(saveRealtimePrices, 300000);
 }
 save_price_data();
