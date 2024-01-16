@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PriceDataI } from "./price_data_interface";
+import { PriceDataI } from "../price_data_interface";
 
 export async function fetchPrices(startTime: number, endTime: number): Promise<PriceDataI[]> {
 	try {
@@ -13,7 +13,6 @@ export async function fetchPrices(startTime: number, endTime: number): Promise<P
 			},
 		});
 
-		console.log("success fetching data: ", response.data[0]);
 		const priceData = response.data.map(
 			(object: any[]): PriceDataI => ({
 				timestamp: object[0],
@@ -24,8 +23,8 @@ export async function fetchPrices(startTime: number, endTime: number): Promise<P
 				low: object[3],
 			})
 		);
-
-		console.log(priceData[0]);
+			console.log("close time in fetchd: ", response.data[0][6], "open time in fetchd: ", response.data[0][0]);
+		console.log("success fetching data: ", priceData[0]);
 		return priceData;
 	} catch (error) {
 		console.error("Error fetching market data:", error);
