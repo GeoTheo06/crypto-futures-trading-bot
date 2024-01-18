@@ -25,7 +25,7 @@ async function saveRealtimePrices() {
 	console.log("hey1");
 	console.log("starttime: ", startTime, "endtime: ", endTime);
 	const fetchedPrices = await fetchPrices(startTime, endTime);
-	const priceData = new PriceData(fetchedPrices[0]); //its only one but the fetch_prices returns array, so i have to [0]
+	const priceData = new PriceData(fetchedPrices[0]); //its only one object but the fetchPrices returns array, so i have to [0]
 	await priceData.save();
 }
 
