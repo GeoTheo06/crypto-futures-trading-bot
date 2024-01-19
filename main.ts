@@ -1,12 +1,12 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { calcEma } from "./indicators/calculate_indicators";
+import { ema } from "./indicators/calculate_indicators";
 import { save_price_data } from "./save_price_data/save_price_data";
 import mongoose from "mongoose";
 import { Schema, model } from "mongoose";
 import { PriceDataI } from "./price_data_interface";
-
+import { saveRealtimePrices } from "./save_price_data/save_price_data";
 //connect to binance api
 const Binance = require("node-binance-api");
 
@@ -40,5 +40,33 @@ try {
 
 export const PriceData = model<PriceDataI>("PriceData", priceDataSchema);
 
-save_price_data();
-calcEma();
+console.log("just checking how many times this is printed");
+
+const sleep = (ms: number) => {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+};
+
+async function realtimeData() {
+	let currentTime = Date.now();
+	let timeTill5MinuteMark = 60000 * 5 - (currentTime % (60000 * 5)); // gives me the time that is left until the time reaches a 5 minute mark. so far in the code i have been calculating the time that has elapsed since the last 5 minute mark.
+	console.log("started waiting", Date.now());
+	await sleep(timeTill5MinuteMark + 10000); //needs 10 sec delay because binance needs some time to give actual close price.
+	console.log("finished waiting", Date.now());
+	saveRealtimePrices();
+}
+
+async function mainStrategy() {
+	await save_price_data();
+	console.log("FINISHED FETCHING AND SAVING HISTORICAL DATA");
+
+	while (true) {
+		console.log("fetching realtime data");
+		await realtimeData();
+		console.log("finished fetching realtime data");
+		ema(5, 493494 84398 398)
+	}
+}
+
+mainStrategy();

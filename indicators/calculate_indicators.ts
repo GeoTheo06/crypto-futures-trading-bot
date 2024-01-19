@@ -16,6 +16,6 @@ import { parse } from "csv-parse/sync";
 // const test = EMA.calculate({period: 200, values: closingPrices });
 // fs.writeFileSync("fg", test.toString());
 // }
-export function calcEma() {
+export function ema() {
 	console.log("hello");
 }

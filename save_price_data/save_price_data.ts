@@ -18,7 +18,7 @@ async function mostRecentPriceDataOnDb(): Promise<number> {
 	}
 }
 
-async function saveRealtimePrices() {
+export async function saveRealtimePrices() {
 	let currentTime = Date.now();
 	let startTime = currentTime - (currentTime % (60000 * 5)) - 60000 * 5;
 	let endTime = currentTime - (currentTime % (60000 * 5)) - 1;
@@ -28,12 +28,6 @@ async function saveRealtimePrices() {
 	const priceData = new PriceData(fetchedPrices[0]); //its only one object but the fetchPrices returns array, so i have to [0]
 	await priceData.save();
 }
-
-const sleep = (ms: number) => {
-	return new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
-};
 
 export async function save_price_data() {
 	//historical prices
@@ -53,14 +47,4 @@ export async function save_price_data() {
 		//recalculating endTime because if the data are way too many, this process could take more than  5 minutes.
 	}
 	console.log("fetched historical prices");
-
-	//realtime prices
-	while (true) {
-		currentTime = Date.now();
-		let timeTill5MinuteMark = 60000 * 5 - (currentTime % (60000 * 5)); // gives me the time that is left until the time reaches a 5 minute mark. so far in the code i have been calculating the time that has elapsed since the last 5 minute mark.
-		console.log("started waiting", Date.now());
-		await sleep(timeTill5MinuteMark + 10000); //needs 10 sec delay because binance needs some time to give actual close price.
-		console.log("finished waiting", Date.now());
-		saveRealtimePrices();
-	}
 }
