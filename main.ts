@@ -58,15 +58,15 @@ async function realtimeData() {
 }
 
 async function mainStrategy() {
-	await save_price_data();
+	// await save_price_data();
 	console.log("FINISHED FETCHING AND SAVING HISTORICAL DATA");
 
-	while (true) {
-		console.log("fetching realtime data");
-		await realtimeData();
-		console.log("finished fetching realtime data");
-		ema(5, 493494 84398 398)
-	}
+	await ema();
+	// while (true) {
+	// 	console.log("fetching realtime data");
+	// 	// await realtimeData();
+	// 	console.log("finished fetching realtime data");
+	// }
 }
 
 mainStrategy();
